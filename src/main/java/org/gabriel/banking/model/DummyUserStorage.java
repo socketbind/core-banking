@@ -7,13 +7,15 @@ public class DummyUserStorage implements UserStorage {
 
     private final Map<String, User> users = new HashMap<>();
 
+    private int count = 0;
+
     @Override
     public User findUserByUsername(String username) {
         return users.computeIfAbsent(username, key -> {
             User user = new User();
             user.setUsername(username);
-            user.setFirstName("John");
-            user.setLastName("Rambo");
+            user.setFirstName("User");
+            user.setLastName("#" + (++count));
             return user;
         });
     }

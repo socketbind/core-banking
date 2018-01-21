@@ -10,6 +10,8 @@ public class DummyAccountsStorage implements AccountsStorage {
 
     private final Map<User, List<BankAccount>> storage = new HashMap<>();
 
+    private int count = 0;
+
     @Override
     public List<BankAccount> findByUser(User user) {
         return storage.computeIfAbsent(user, key -> {
@@ -17,7 +19,7 @@ public class DummyAccountsStorage implements AccountsStorage {
             BankAccount firstAccount = new BankAccount();
 
             firstAccount.setUser(key);
-            firstAccount.setBalance(new BigDecimal(5000));
+            firstAccount.setBalance(new BigDecimal(5000 + (count++) * 1000));
 
             accounts.add(firstAccount);
             return accounts;
