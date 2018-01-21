@@ -1,5 +1,6 @@
 package org.gabriel.banking.model;
 
+import java.time.LocalDate;
 import java.util.function.Predicate;
 
 public final class TransactionFilters {
@@ -27,6 +28,10 @@ public final class TransactionFilters {
     public static Predicate<Transaction> specificDate(int year, int month, int day) {
         return transaction ->
             transaction.getDate().getYear() == year && transaction.getDate().getMonthValue() == month && transaction.getDate().getDayOfMonth() == day;
+    }
+
+    public static Predicate<Transaction> specificDate(LocalDate thatDate) {
+        return transaction -> thatDate.isEqual(transaction.getDate().toLocalDate());
     }
 
 }

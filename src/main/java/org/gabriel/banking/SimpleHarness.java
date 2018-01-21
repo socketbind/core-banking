@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 public class SimpleHarness {
@@ -41,12 +42,16 @@ public class SimpleHarness {
             bankService.performDeposit(user1, user1Account, BigDecimal.valueOf(6000));
             bankService.performTransfer(user1, user1Account, user2Account, BigDecimal.valueOf(1500));
 
+            System.out.println("All transactions");
             transactionsFormatter.formatTransactions(ledger.getTransactions(), System.out);
+
+            System.out.println("By " + user1.getFriendlyName());
             transactionsFormatter.formatTransactions(ledger.getTransactions(), TransactionFilters.specificUser(user1), System.out);
 
+            System.out.println("By " + user1.getFriendlyName() + " on ");
             transactionsFormatter.formatTransactions(
                     ledger.getTransactions(),
-                    TransactionFilters.specificUser(user1).and(TransactionFilters.specificDate(2018, 1, 21)),
+                    TransactionFilters.specificUser(user1).and(TransactionFilters.specificDate(LocalDate.now())),
                     System.out
             );
         } catch (NoSuchUserException e) {
