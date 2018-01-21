@@ -31,27 +31,35 @@ public class SimpleHarness {
         try {
             User user1 = bankService.authenticateAs("peti", "somepass", "somecode");
             User user2 = bankService.authenticateAs("gyuri", "somepass", "somecode");
+            User user3 = bankService.authenticateAs("rezso", "somepass", "somecode");
 
             List<BankAccount> user1Accounts = bankService.retrieveAccountsFor(user1);
             List<BankAccount> user2Accounts = bankService.retrieveAccountsFor(user2);
+            List<BankAccount> user3Accounts = bankService.retrieveAccountsFor(user3);
 
             BankAccount user1Account = user1Accounts.get(0);
             BankAccount user2Account = user2Accounts.get(0);
+            BankAccount user3Account = user3Accounts.get(0);
 
             bankService.performWithdraw(user1, user1Account, BigDecimal.valueOf(1000));
             bankService.performDeposit(user1, user1Account, BigDecimal.valueOf(6000));
             bankService.performTransfer(user1, user1Account, user2Account, BigDecimal.valueOf(1500));
 
+            bankService.performTransfer(user3, user3Account, user2Account, BigDecimal.valueOf(1000));
+
             System.out.println("All transactions");
             transactionsFormatter.formatTransactions(ledger.getTransactions(), System.out);
+            System.out.println();
 
             System.out.println("By " + user1.getFriendlyName());
             transactionsFormatter.formatTransactions(ledger.getTransactions(), TransactionFilters.specificUser(user1), System.out);
+            System.out.println();
 
-            System.out.println("By " + user1.getFriendlyName() + " on ");
+            LocalDate now = LocalDate.now();
+            System.out.println("By " + user1.getFriendlyName() + " on " + now);
             transactionsFormatter.formatTransactions(
                     ledger.getTransactions(),
-                    TransactionFilters.specificUser(user1).and(TransactionFilters.specificDate(LocalDate.now())),
+                    TransactionFilters.specificUser(user1).and(TransactionFilters.specificDate(now)),
                     System.out
             );
         } catch (NoSuchUserException e) {
