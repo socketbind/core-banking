@@ -88,7 +88,7 @@ public class Transaction {
 
     public void apply() throws InsufficientFundsException {
         if (sourceBalance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new InsufficientFundsException(String.format("Unable to %s insufficient balance", type));
+            throw new InsufficientFundsException(String.format("Unable to execute %s insufficient balance", type));
         }
 
         if (sourceAccount != null) {

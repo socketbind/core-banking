@@ -46,7 +46,7 @@ public class DefaultBankService implements BankService {
             ledger.performTransaction(withdrawal);
             return withdrawal;
         } catch (InsufficientFundsException e) {
-            throw new WithdrawalFailedException();
+            throw new WithdrawalFailedException("Unable to withdraw", e);
         }
     }
 

@@ -50,19 +50,32 @@ public class BankingExample {
             try {
                 bankService.performDeposit(user1, user1Account, BigDecimal.valueOf(6000));
             } catch (DepositFailedException e) {
-                e.printStackTrace();
+                logger.error("Deposit failed", e);
             }
 
             try {
                 bankService.performTransfer(user1, user1Account, user2Account, BigDecimal.valueOf(1500));
             } catch (TransferFailedException e) {
-                e.printStackTrace();
+                logger.error("Transfer failed", e);
             }
 
             try {
                 bankService.performTransfer(user3, user3Account, user2Account, BigDecimal.valueOf(1000));
             } catch (TransferFailedException e) {
-                e.printStackTrace();
+                logger.error("Transfer failed", e);
+            }
+
+            // Examples for failing transactions
+            try {
+                bankService.performWithdraw(user1, user1Account, BigDecimal.valueOf(10000));
+            } catch (WithdrawalFailedException e) {
+                logger.error("Withdraw failed", e);
+            }
+
+            try {
+                bankService.performTransfer(user1, user1Account, user2Account, BigDecimal.valueOf(150000));
+            } catch (TransferFailedException e) {
+                logger.error("Transfer failed", e);
             }
 
             /*
