@@ -27,4 +27,11 @@ public class BankAccount {
         this.balance = balance;
     }
 
+    @Override
+    public String toString() {
+        return "BankAccount{" +
+                "user=" + user +
+                ", balance=" + balance +
+                '}';
+    }
 }
