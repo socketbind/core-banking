@@ -42,7 +42,7 @@ public class SimpleHarness {
             bankService.performTransfer(user1, user1Account, user2Account, BigDecimal.valueOf(1500));
 
             transactionsFormatter.formatTransactions(ledger.getTransactions(), System.out);
-            transactionsFormatter.formatTransactions(ledger.getTransactions(), TransactionFilters.DEPOSITS, System.out);
+            transactionsFormatter.formatTransactions(ledger.getTransactions(), TransactionFilters.specificUser(user1), System.out);
         } catch (NoSuchUserException e) {
             logger.error("Login failed", e);
         } catch (WithdrawalFailedException e) {

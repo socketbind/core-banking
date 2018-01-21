@@ -14,4 +14,18 @@ public final class TransactionFilters {
 
     private TransactionFilters() {}
 
+    public static Predicate<Transaction> specificUser(User user) {
+        return transaction -> {
+            if (transaction.getSourceAccount() != null && transaction.getSourceAccount().getUser().getUsername().equals(user.getUsername())) {
+                return true;
+            }
+
+            if (transaction.getDestinationAccount() != null && transaction.getDestinationAccount().getUser().getUsername().equals(user.getUsername())) {
+                return true;
+            }
+
+            return false;
+        };
+    }
+
 }
