@@ -3,7 +3,7 @@ package org.gabriel.banking.model;
 import org.gabriel.banking.model.exceptions.InsufficientFundsException;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 public class Transaction {
 
@@ -19,7 +19,7 @@ public class Transaction {
 
     private final BigDecimal destinationBalance;
 
-    private Date date;
+    private ZonedDateTime date;
 
     Transaction(TransactionType type, BankAccount sourceAccount, BankAccount destinationAccount, BigDecimal amount, BigDecimal sourceBalance, BigDecimal destinationBalance) {
         this.type = type;
@@ -54,7 +54,7 @@ public class Transaction {
         return destinationBalance;
     }
 
-    public Date getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
@@ -99,7 +99,7 @@ public class Transaction {
             destinationAccount.setBalance(destinationBalance);
         }
 
-        date = new Date();
+        date = ZonedDateTime.now();
     }
 
     public static Transaction withdrawal(BankAccount bankAccount, BigDecimal amount) {

@@ -20,12 +20,13 @@ public final class TransactionFilters {
                 return true;
             }
 
-            if (transaction.getDestinationAccount() != null && transaction.getDestinationAccount().getUser().getUsername().equals(user.getUsername())) {
-                return true;
-            }
-
-            return false;
+            return transaction.getDestinationAccount() != null && transaction.getDestinationAccount().getUser().getUsername().equals(user.getUsername());
         };
+    }
+
+    public static Predicate<Transaction> specificDate(int year, int month, int day) {
+        return transaction ->
+            transaction.getDate().getYear() == year && transaction.getDate().getMonthValue() == month && transaction.getDate().getDayOfMonth() == day;
     }
 
 }

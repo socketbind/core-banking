@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class SimpleHarness {
-    // not null asserts
+
     private static final Logger logger = LoggerFactory.getLogger(SimpleHarness.class);
 
     public static void main(String[] args) {
@@ -43,6 +43,12 @@ public class SimpleHarness {
 
             transactionsFormatter.formatTransactions(ledger.getTransactions(), System.out);
             transactionsFormatter.formatTransactions(ledger.getTransactions(), TransactionFilters.specificUser(user1), System.out);
+
+            transactionsFormatter.formatTransactions(
+                    ledger.getTransactions(),
+                    TransactionFilters.specificUser(user1).and(TransactionFilters.specificDate(2018, 1, 21)),
+                    System.out
+            );
         } catch (NoSuchUserException e) {
             logger.error("Login failed", e);
         } catch (WithdrawalFailedException e) {

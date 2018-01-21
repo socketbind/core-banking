@@ -1,23 +1,22 @@
 package org.gabriel.banking.model;
 
 import java.io.PrintStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class SimpleTransactionsFormatter implements TransactionsFormatter {
 
-    private final DateFormat dateFormatter;
+    private final DateTimeFormatter dateFormatter;
 
     public SimpleTransactionsFormatter() {
-        dateFormatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault());
+        dateFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
     }
 
-    public SimpleTransactionsFormatter(String datePattern) {
-        dateFormatter = new SimpleDateFormat(datePattern);
+    public SimpleTransactionsFormatter(DateTimeFormatter dateFormatter) {
+        this.dateFormatter = dateFormatter;
     }
 
     @Override
@@ -32,7 +31,7 @@ public class SimpleTransactionsFormatter implements TransactionsFormatter {
                 output.printf("%-30s %-30s %-30s %-30s %-30s\n",
                         transaction.getSourceFriendlyName(),
                         transaction.getDestinationFriendlyName(),
-                        dateFormatter.format(transaction.getDate()),
+                        transaction.getDate().format(dateFormatter),
                         transaction.getAmount().toPlainString(),
                         transaction.getBalance().toPlainString()
                 );
