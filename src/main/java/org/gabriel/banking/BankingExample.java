@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 public class BankingExample {
 
@@ -27,31 +26,20 @@ public class BankingExample {
 
     private final TransactionsFormatter transactionsFormatter = new SimpleTransactionsFormatter();
 
-    private void printAccounts(User... users) {
-        for (User user : users) {
-            List<BankAccount> userAccounts = bankService.retrieveAccountsFor(user);
-            for (BankAccount userAccount : userAccounts) {
-                System.out.println(userAccount);
-            }
-        }
-    }
-
     private void runExample() {
         try {
             User user1 = bankService.authenticateAs("peti", "somepass", "somecode");
             User user2 = bankService.authenticateAs("gyuri", "somepass", "somecode");
             User user3 = bankService.authenticateAs("rezso", "somepass", "somecode");
 
-            List<BankAccount> user1Accounts = bankService.retrieveAccountsFor(user1);
-            List<BankAccount> user2Accounts = bankService.retrieveAccountsFor(user2);
-            List<BankAccount> user3Accounts = bankService.retrieveAccountsFor(user3);
+            BankAccount user1Account = bankService.retrieveAccountFor(user1);
+            BankAccount user2Account = bankService.retrieveAccountFor(user2);
+            BankAccount user3Account = bankService.retrieveAccountFor(user3);
 
-            printAccounts(user1, user2, user3);
+            System.out.println(user1Account);
+            System.out.println(user2Account);
+            System.out.println(user3Account);
             System.out.println();
-
-            BankAccount user1Account = user1Accounts.get(0);
-            BankAccount user2Account = user2Accounts.get(0);
-            BankAccount user3Account = user3Accounts.get(0);
 
             try {
                 bankService.performWithdraw(user1, user1Account, BigDecimal.valueOf(1000));
@@ -77,6 +65,11 @@ public class BankingExample {
                 e.printStackTrace();
             }
 
+            /*
+                Closing balance can be a little bit confusing when listing all transactions, in case of withdrawals and
+                transfers the balance refers to the account from which the amount was deducted. In case of deposits the
+                benefiting account balance is shown.
+             */
             System.out.println("All transactions");
             transactionsFormatter.formatTransactions(ledger.getTransactions(), System.out);
             System.out.println();
@@ -98,8 +91,9 @@ public class BankingExample {
             );
             System.out.println();
 
-            printAccounts(user1, user2, user3);
-            System.out.println();
+            System.out.println(user1Account);
+            System.out.println(user2Account);
+            System.out.println(user3Account);
         } catch (NoSuchUserException e) {
             logger.error("Login failed", e);
         }

@@ -6,13 +6,12 @@ import org.gabriel.banking.model.exceptions.TransferFailedException;
 import org.gabriel.banking.model.exceptions.WithdrawalFailedException;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public interface BankService {
 
     User authenticateAs(String username, String password, String otpCode) throws NoSuchUserException;
 
-    List<BankAccount> retrieveAccountsFor(User user);
+    BankAccount retrieveAccountFor(User user);
 
     Transaction performWithdraw(User user, BankAccount account, BigDecimal amount) throws WithdrawalFailedException;
 

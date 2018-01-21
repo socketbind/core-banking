@@ -3,7 +3,6 @@ package org.gabriel.banking.model;
 import org.gabriel.banking.model.exceptions.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public class DefaultBankService implements BankService {
 
@@ -32,7 +31,7 @@ public class DefaultBankService implements BankService {
     }
 
     @Override
-    public List<BankAccount> retrieveAccountsFor(User user) {
+    public BankAccount retrieveAccountFor(User user) {
         return accountsStorage.findByUser(user);
     }
 
